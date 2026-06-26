@@ -9,23 +9,9 @@ class TripScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final List<TripLocation> locations = [
-
-      const TripLocation(
-        name: "Church of Nativity",
-        duration: "30 min",
-      ),
-
-      const TripLocation(
-        name: "Manger Square",
-        duration: "20 min",
-      ),
-
-      const TripLocation(
-        name: "Bethlehem Market",
-        duration: "40 min",
-      ),
-    ];
+    final args = ModalRoute.of(context)?.settings.arguments;
+    final List<TripLocation> locations =
+        args is List<TripLocation> ? args : [];
 
     // Empty State
 
