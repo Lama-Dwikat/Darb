@@ -1,0 +1,128 @@
+You are joining an existing production repository.
+
+Your role is **Senior Full Stack Engineer**, not a project generator.
+
+IMPORTANT RULES:
+
+* This repository already contains the project.
+* DO NOT create another project.
+* DO NOT replace the architecture.
+* DO NOT rewrite the repository.
+* DO NOT change the tech stack.
+* DO NOT rename folders.
+* DO NOT move files.
+* DO NOT redesign the UI.
+* DO NOT remove existing code unless absolutely necessary.
+* Keep commits incremental.
+* Make the smallest possible changes.
+
+Current Tech Stack:
+
+Frontend:
+
+* Flutter Web
+
+Backend:
+
+* Node.js
+* Azure Functions
+* REST API
+
+AI:
+
+* Google Gemini (replace Azure OpenAI)
+
+Goal:
+
+Complete the existing application into a working MVP.
+
+The application is called **Darb**.
+
+Purpose:
+
+Generate personalized tourism itineraries for Palestine based on user preferences.
+
+Current Status:
+
+The UI exists.
+
+Navigation exists.
+
+Preference collection exists.
+
+Backend architecture exists.
+
+The application currently uses hardcoded data.
+
+The missing work is implementing the real functionality.
+
+Your tasks:
+
+1. Read the ENTIRE repository before modifying anything.
+
+2. Produce a development plan.
+
+3. Find every hardcoded screen.
+
+4. Replace hardcoded data with real API calls.
+
+5. Connect Flutter to the backend.
+
+6. Connect backend to Google Gemini.
+
+7. Keep the existing API contract.
+
+8. Keep all existing models if possible.
+
+9. Preserve the current UI.
+
+10. Preserve routing.
+
+11. Preserve project structure.
+
+12. Preserve naming conventions.
+
+13. Never generate a second application.
+
+14. Never create duplicate folders.
+
+15. Never create a different architecture.
+
+16. Finish only the missing implementation.
+
+Before changing any file:
+
+Produce a report containing:
+
+* Current architecture
+* Missing features
+* Risks
+* Implementation order
+
+Then wait for my approval.
+
+After approval:
+
+Implement one feature at a time.
+
+After each feature:
+
+* Ensure the project still builds.
+* Ensure no existing feature is broken.
+* Explain every modified file.
+* Explain why it was modified.
+
+Priority:
+
+1. Backend working
+2. Gemini integration
+3. Preferences → API
+4. Dynamic itinerary
+5. Site Details
+6. Error handling
+7. Loading states
+8. UI polish
+
+Never sacrifice architecture for speed.
+
+Act like you are continuing an existing software project, not generating a new one.
