@@ -14,14 +14,21 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color:        AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border:       Border.all(color: AppColors.border),
+          boxShadow:    AppShadows.card,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Name + category badge ──────────────────────────────────────
+            // ── Name + category badge ────────────────────────────────────
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -29,26 +36,27 @@ class LocationCard extends StatelessWidget {
                   child: Text(
                     location.name,
                     style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      fontSize:   16,
+                      fontWeight: FontWeight.w700,
+                      color:      AppColors.textPrimary,
+                      height:     1.3,
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0x1AB07D45),
-                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                    color: categoryBgColor(location.category),
+                    borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: Text(
                     location.category,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w500,
+                    style: TextStyle(
+                      fontSize:   11,
+                      fontWeight: FontWeight.w600,
+                      color:      categoryTextColor(location.category),
                     ),
                   ),
                 ),
@@ -57,36 +65,45 @@ class LocationCard extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            // ── Location · Duration · AI Match ────────────────────────────
+            // ── Location · Duration · AI Match ───────────────────────────
             Row(
               children: [
-                const Icon(Icons.location_on_outlined,
-                    size: 14, color: AppColors.textSecondary),
+                const Icon(Icons.location_on_rounded,
+                    size: 13, color: AppColors.textSecondary),
                 const SizedBox(width: 3),
                 Flexible(
                   child: Text(
                     location.location,
-                    style: const TextStyle(
-                        fontSize: 13, color: AppColors.textSecondary),
                     overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 12, color: AppColors.textSecondary),
                   ),
                 ),
-                const SizedBox(width: 12),
-                const Icon(Icons.schedule_outlined,
-                    size: 14, color: AppColors.textSecondary),
+                const SizedBox(width: 10),
+                const Icon(Icons.schedule_rounded,
+                    size: 13, color: AppColors.textSecondary),
                 const SizedBox(width: 3),
                 Text(
                   location.durationLabel,
                   style: const TextStyle(
-                      fontSize: 13, color: AppColors.textSecondary),
+                      fontSize: 12, color: AppColors.textSecondary),
                 ),
                 const Spacer(),
-                Text(
-                  'AI Match ${location.score}%',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondary,
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color:        AppColors.primary10,
+                    borderRadius: BorderRadius.circular(AppRadius.pill),
+                    border:       Border.all(color: AppColors.primary30),
+                  ),
+                  child: Text(
+                    'Match ${location.score}%',
+                    style: const TextStyle(
+                      fontSize:   11,
+                      fontWeight: FontWeight.w600,
+                      color:      AppColors.primary,
+                    ),
                   ),
                 ),
               ],
@@ -94,19 +111,21 @@ class LocationCard extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // ── Description ───────────────────────────────────────────────
+            // ── Description ──────────────────────────────────────────────
             Text(
               location.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
-                height: 1.5,
+                color:    AppColors.textSecondary,
+                height:   1.5,
               ),
             ),
 
             const SizedBox(height: 14),
 
-            // ── CTA ───────────────────────────────────────────────────────
+            // ── CTA ──────────────────────────────────────────────────────
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

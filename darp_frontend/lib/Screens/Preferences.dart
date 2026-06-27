@@ -11,22 +11,13 @@ class PreferencesScreen extends StatefulWidget {
 }
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
-  static const List<String> _languages = [
-    'Arabic',
-    'English',
-    'French',
-  ];
-
-  static const List<String> _interests = [
-    'Religious',
-    'Historical',
-    'Cultural',
-  ];
+  static const List<String> _languages = ['Arabic', 'English', 'French'];
+  static const List<String> _interests = ['Religious', 'Historical', 'Cultural'];
 
   String? _selectedLanguage = _languages.first;
   final Set<String> _selectedInterests = {};
 
-  int _selectedHours = 1;
+  int _selectedHours   = 1;
   int _selectedMinutes = 0;
 
   // Budget — local only, not sent to backend
@@ -47,13 +38,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   void _onGenerateTrip() {
     if (!_canSubmit) return;
-
     final preferences = TripPreferences(
-      language: _selectedLanguage!,
+      language:  _selectedLanguage!,
       interests: _selectedInterests,
-      duration: '${_selectedHours}h ${_selectedMinutes}m',
+      duration:  '${_selectedHours}h ${_selectedMinutes}m',
     );
-
     Navigator.of(context).pushNamed('/loading', arguments: preferences);
   }
 
@@ -66,6 +55,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Plan Your Trip'),
       ),
@@ -76,14 +66,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
                 children: [
-                  // ── Welcome card ─────────────────────────────────────────
+                  // ── Welcome card ───────────────────────────────────────────
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(AppRadius.xl),
                       border: Border.all(color: AppColors.border),
+                      boxShadow: AppShadows.card,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,12 +85,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               width: 44,
                               height: 44,
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.12),
+                                color: AppColors.primary12,
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: const Center(
-                                child:
-                                    Text('🤖', style: TextStyle(fontSize: 22)),
+                                child: Text('🤖',
+                                    style: TextStyle(fontSize: 22)),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -109,9 +100,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                 Text(
                                   'Darb AI',
                                   style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.primary,
+                                    fontSize:      13,
+                                    fontWeight:    FontWeight.w700,
+                                    color:         AppColors.primary,
                                     letterSpacing: 0.4,
                                   ),
                                 ),
@@ -119,7 +110,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                   'Your personal trip planner',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: AppColors.textSecondary,
+                                    color:    AppColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -130,9 +121,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         const Text(
                           'Hello!',
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize:   22,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
+                            color:      AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -140,17 +131,17 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                           "I'll build a personalized itinerary based on your interests, budget and available time.",
                           style: TextStyle(
                             fontSize: 15,
-                            color: AppColors.textSecondary,
-                            height: 1.55,
+                            color:    AppColors.textSecondary,
+                            height:   1.55,
                           ),
                         ),
                       ],
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  // ── Budget ───────────────────────────────────────────────
+                  // ── Budget ─────────────────────────────────────────────────
                   _ConvoCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,53 +161,30 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  color: AppColors.textPrimary,
+                                  fontSize:   16,
+                                  color:      AppColors.textPrimary,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: '200',
-                                  hintStyle: const TextStyle(
-                                      color: AppColors.textSecondary),
-                                  filled: true,
-                                  fillColor:
-                                      AppColors.background,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 12),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.border),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.border),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primary, width: 1.5),
-                                  ),
                                 ),
                               ),
                             ),
                             const SizedBox(width: 12),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 13),
+                                  horizontal: 16, vertical: 14),
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: AppColors.primary.withOpacity(0.3)),
+                                color:  AppColors.primary10,
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                border: Border.all(color: AppColors.primary30),
                               ),
                               child: const Text(
                                 'JOD',
                                 style: TextStyle(
-                                  color: AppColors.primary,
+                                  color:      AppColors.primary,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 15,
+                                  fontSize:   15,
                                 ),
                               ),
                             ),
@@ -226,9 +194,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  // ── Duration ─────────────────────────────────────────────
+                  // ── Duration ───────────────────────────────────────────────
                   _ConvoCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,9 +210,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 14, vertical: 4),
                           decoration: BoxDecoration(
-                            color: AppColors.background,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.border),
+                            color:        AppColors.background,
+                            borderRadius: BorderRadius.circular(AppRadius.md),
+                            border:       Border.all(color: AppColors.border),
                           ),
                           child: Row(
                             children: [
@@ -253,42 +221,42 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               const SizedBox(width: 10),
                               Expanded(
                                 child: DropdownButton<int>(
-                                  value: _selectedHours,
+                                  value:      _selectedHours,
                                   isExpanded: true,
-                                  underline: const SizedBox(),
+                                  underline:  const SizedBox(),
+                                  dropdownColor: AppColors.surface,
                                   style: const TextStyle(
-                                    color: AppColors.textPrimary,
+                                    color:    AppColors.textPrimary,
                                     fontSize: 15,
                                   ),
                                   items: List.generate(
                                     13,
-                                    (index) => DropdownMenuItem(
-                                      value: index,
+                                    (i) => DropdownMenuItem(
+                                      value: i,
                                       child: Text(
-                                          '$index Hour${index == 1 ? '' : 's'}'),
+                                          '$i Hour${i == 1 ? '' : 's'}'),
                                     ),
                                   ),
-                                  onChanged: (value) =>
-                                      setState(() => _selectedHours = value!),
+                                  onChanged: (v) =>
+                                      setState(() => _selectedHours = v!),
                                 ),
                               ),
                               Container(
-                                  width: 1,
-                                  height: 28,
-                                  color: AppColors.border),
+                                  width: 1, height: 28, color: AppColors.border),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: DropdownButton<int>(
-                                  value: _selectedMinutes,
+                                  value:      _selectedMinutes,
                                   isExpanded: true,
-                                  underline: const SizedBox(),
+                                  underline:  const SizedBox(),
+                                  dropdownColor: AppColors.surface,
                                   style: const TextStyle(
-                                    color: AppColors.textPrimary,
+                                    color:    AppColors.textPrimary,
                                     fontSize: 15,
                                   ),
                                   items: const [
                                     DropdownMenuItem(
-                                        value: 0, child: Text('00 Min')),
+                                        value: 0,  child: Text('00 Min')),
                                     DropdownMenuItem(
                                         value: 15, child: Text('15 Min')),
                                     DropdownMenuItem(
@@ -296,8 +264,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                     DropdownMenuItem(
                                         value: 45, child: Text('45 Min')),
                                   ],
-                                  onChanged: (value) =>
-                                      setState(() => _selectedMinutes = value!),
+                                  onChanged: (v) =>
+                                      setState(() => _selectedMinutes = v!),
                                 ),
                               ),
                             ],
@@ -307,9 +275,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  // ── Interests ────────────────────────────────────────────
+                  // ── Interests ──────────────────────────────────────────────
                   _ConvoCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,18 +291,18 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                           'Pick as many as you\'d like.',
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColors.textSecondary,
+                            color:    AppColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 14),
                         Wrap(
-                          spacing: 10,
+                          spacing:    10,
                           runSpacing: 10,
                           children: _interests.map((interest) {
                             return _SelectableChip(
-                              label: interest,
+                              label:    interest,
                               selected: _selectedInterests.contains(interest),
-                              onTap: () => _toggleInterest(interest),
+                              onTap:    () => _toggleInterest(interest),
                             );
                           }).toList(),
                         ),
@@ -342,9 +310,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  // ── Language ─────────────────────────────────────────────
+                  // ── Language ───────────────────────────────────────────────
                   _ConvoCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,14 +323,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         ),
                         const SizedBox(height: 14),
                         Wrap(
-                          spacing: 10,
+                          spacing:    10,
                           runSpacing: 10,
                           children: _languages.map((language) {
                             return _SelectableChip(
-                              label: language,
+                              label:    language,
                               selected: _selectedLanguage == language,
-                              onTap: () =>
-                                  setState(() => _selectedLanguage = language),
+                              onTap:    () => setState(
+                                  () => _selectedLanguage = language),
                             );
                           }).toList(),
                         ),
@@ -373,7 +341,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               ),
             ),
 
-            // ── Generate button ───────────────────────────────────────────
+            // ── Generate button ─────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               child: SizedBox(
@@ -395,7 +363,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
 class _ConvoCard extends StatelessWidget {
   final Widget child;
-
   const _ConvoCard({required this.child});
 
   @override
@@ -404,9 +371,10 @@ class _ConvoCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        color:        AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.xl),
+        border:       Border.all(color: AppColors.border),
+        boxShadow:    AppShadows.subtle,
       ),
       child: child,
     );
@@ -416,7 +384,6 @@ class _ConvoCard extends StatelessWidget {
 class _QuestionLabel extends StatelessWidget {
   final String emoji;
   final String question;
-
   const _QuestionLabel({required this.emoji, required this.question});
 
   @override
@@ -429,10 +396,10 @@ class _QuestionLabel extends StatelessWidget {
         Text(
           question,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize:   16,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
-            height: 1.3,
+            color:      AppColors.textPrimary,
+            height:     1.3,
           ),
         ),
       ],
@@ -456,22 +423,24 @@ class _SelectableChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        duration: const Duration(milliseconds: 200),
+        curve:    Curves.easeOut,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary : AppColors.surface,
+          color: selected ? AppColors.primary : AppColors.background,
           borderRadius: BorderRadius.circular(AppRadius.pill),
           border: Border.all(
             color: selected ? AppColors.primary : AppColors.border,
+            width: selected ? 1.5 : 1,
           ),
+          boxShadow: selected ? AppShadows.subtle : null,
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: selected ? Colors.white : AppColors.textPrimary,
+            color:      selected ? Colors.white : AppColors.textPrimary,
             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-            fontSize: 14,
+            fontSize:   14,
           ),
         ),
       ),
