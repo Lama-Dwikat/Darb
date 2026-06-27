@@ -5,6 +5,7 @@ packages:
     dependency: transitive
     description:
       name: async
+<<<<<<< HEAD
       sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
       url: "https://pub.dev"
     source: hosted
@@ -17,6 +18,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+=======
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.13.1"
+>>>>>>> replit-implementation
   characters:
     dependency: transitive
     description:
@@ -25,6 +32,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+<<<<<<< HEAD
   clock:
     dependency: transitive
     description:
@@ -33,6 +41,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.2"
+=======
+>>>>>>> replit-implementation
   collection:
     dependency: transitive
     description:
@@ -41,6 +51,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+<<<<<<< HEAD
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -57,11 +68,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.3"
+=======
+>>>>>>> replit-implementation
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -75,6 +89,8 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+=======
+>>>>>>> replit-implementation
   http:
     dependency: "direct main"
     description:
@@ -91,6 +107,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+<<<<<<< HEAD
   leak_tracker:
     dependency: transitive
     description:
@@ -131,6 +148,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.17"
+=======
+>>>>>>> replit-implementation
   material_color_utilities:
     dependency: transitive
     description:
@@ -164,6 +183,7 @@ packages:
     dependency: transitive
     description:
       name: source_span
+<<<<<<< HEAD
       sha256: "254ee5351d6cb365c859e20ee823c3bb479bf4a293c22d17a9f1bf144ce86f7c"
       url: "https://pub.dev"
     source: hosted
@@ -184,6 +204,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+=======
+      sha256: "56a02f1f4cd1a2d96303c0144c93bd6d909eea6bee6bf5a0e0b685edbd4c47ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.10.2"
+>>>>>>> replit-implementation
   string_scanner:
     dependency: transitive
     description:
@@ -200,6 +226,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+<<<<<<< HEAD
   test_api:
     dependency: transitive
     description:
@@ -208,6 +235,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.4"
+=======
+>>>>>>> replit-implementation
   typed_data:
     dependency: transitive
     description:
@@ -220,6 +249,7 @@ packages:
     dependency: transitive
     description:
       name: vector_math
+<<<<<<< HEAD
       sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
       url: "https://pub.dev"
     source: hosted
@@ -232,6 +262,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "15.0.0"
+=======
+      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+>>>>>>> replit-implementation
   web:
     dependency: transitive
     description:
@@ -241,5 +277,9 @@ packages:
     source: hosted
     version: "1.1.1"
 sdks:
+<<<<<<< HEAD
   dart: ">=3.8.0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
+=======
+  dart: ">=3.8.0-0 <4.0.0"
+>>>>>>> replit-implementation
