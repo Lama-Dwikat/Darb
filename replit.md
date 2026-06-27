@@ -2,8 +2,26 @@
 
 A Flutter web application for personalized tourism trip planning, focused on historical and cultural sites in Palestine (Jerusalem, Bethlehem).
 
+## Architecture
+
+```
+Flutter (web UI)
+   ↓  POST /api/generateItinerary  { language, interests, duration }
+Backend API (Node.js + Express)
+   ↓
+Recommendation Service (local rule-based engine)
+   ↓
+data/sites.json (local dataset of Palestinian locations)
+```
+
+The recommendation logic lives in a dedicated service (`backend/services/recommendationService.js`) and returns the same response contract an AI provider would, so it can later be swapped for Gemini or Azure OpenAI with minimal changes. The frontend is agnostic to where recommendations come from.
+
 ## Project Structure
 
+- `backend/` — Node.js + Express server
+  - `server.js` — App server, static hosting, `/api/generateItinerary`, `/api/health`
+  - `services/recommendationService.js` — Rule-based recommendation engine
+  - `data/sites.json` — Local dataset of Palestinian tourist locations
 - `darp_frontend/` — Flutter project root
   - `lib/` — Dart source code
     - `main.dart` — App entry point and route definitions
