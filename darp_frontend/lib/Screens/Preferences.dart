@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/trip_preferences.dart';
 import '../theme/app_theme.dart';
 
@@ -28,6 +29,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   int _selectedHours = 1;
   int _selectedMinutes = 0;
 
+  // Budget — local only, not sent to backend
+  final _budgetController = TextEditingController(text: '200');
+
   bool get _canSubmit =>
       _selectedLanguage != null && _selectedInterests.isNotEmpty;
 
@@ -54,9 +58,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+  void dispose() {
+    _budgetController.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plan Your Trip'),
@@ -66,145 +74,313 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           children: [
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
                 children: [
-                  Text(
-                    'Tell us what you like',
-                    style: textTheme.titleLarge,
-                  ),
-
-                  const SizedBox(height: 4),
-
-                  Text(
-                    'We\'ll shape your journey around it.',
-                    style: textTheme.bodyMedium,
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  // ── Language ────────────────────────────────────────────
-                  const _SectionTitle('Language'),
-
-                  const SizedBox(height: 12),
-
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: _languages.map((language) {
-                      return _SelectableChip(
-                        label: language,
-                        selected: _selectedLanguage == language,
-                        onTap: () =>
-                            setState(() => _selectedLanguage = language),
-                      );
-                    }).toList(),
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  // ── Interests ───────────────────────────────────────────
-                  const _SectionTitle('Interests'),
-
-                  const SizedBox(height: 4),
-
-                  Text(
-                    'Pick as many as you\'d like.',
-                    style: textTheme.bodyMedium,
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: _interests.map((interest) {
-                      return _SelectableChip(
-                        label: interest,
-                        selected: _selectedInterests.contains(interest),
-                        onTap: () => _toggleInterest(interest),
-                      );
-                    }).toList(),
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  // ── Duration ────────────────────────────────────────────
-                  const _SectionTitle('Trip Duration'),
-
-                  const SizedBox(height: 12),
-
+                  // ── Welcome card ─────────────────────────────────────────
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.border),
                     ),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.access_time),
-
-                        const SizedBox(width: 16),
-
-                        Expanded(
-                          child: DropdownButton<int>(
-                            value: _selectedHours,
-                            isExpanded: true,
-                            underline: const SizedBox(),
-                            items: List.generate(
-                              13,
-                              (index) => DropdownMenuItem(
-                                value: index,
-                                child: Text(
-                                  '$index Hour${index == 1 ? '' : 's'}',
-                                ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              child: const Center(
+                                child:
+                                    Text('🤖', style: TextStyle(fontSize: 22)),
                               ),
                             ),
-                            onChanged: (value) =>
-                                setState(() => _selectedHours = value!),
+                            const SizedBox(width: 12),
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Darb AI',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primary,
+                                    letterSpacing: 0.4,
+                                  ),
+                                ),
+                                Text(
+                                  'Your personal trip planner',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 18),
+                        const Text(
+                          'Hello!',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary,
                           ),
                         ),
-
-                        const SizedBox(width: 12),
-
-                        Expanded(
-                          child: DropdownButton<int>(
-                            value: _selectedMinutes,
-                            isExpanded: true,
-                            underline: const SizedBox(),
-                            items: const [
-                              DropdownMenuItem(value: 0, child: Text('00 Min')),
-                              DropdownMenuItem(value: 15, child: Text('15 Min')),
-                              DropdownMenuItem(value: 30, child: Text('30 Min')),
-                              DropdownMenuItem(value: 45, child: Text('45 Min')),
-                            ],
-                            onChanged: (value) =>
-                                setState(() => _selectedMinutes = value!),
+                        const SizedBox(height: 6),
+                        const Text(
+                          "I'll build a personalized itinerary based on your interests, budget and available time.",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.textSecondary,
+                            height: 1.55,
                           ),
                         ),
                       ],
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 20),
 
-                  Text(
-                    'Select trip duration in hours and minutes',
-                    style: textTheme.bodySmall,
+                  // ── Budget ───────────────────────────────────────────────
+                  _ConvoCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const _QuestionLabel(
+                          emoji: '💰',
+                          question: 'What is your available budget?',
+                        ),
+                        const SizedBox(height: 14),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _budgetController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: '200',
+                                  hintStyle: const TextStyle(
+                                      color: AppColors.textSecondary),
+                                  filled: true,
+                                  fillColor:
+                                      AppColors.background,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 12),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.border),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.border),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primary, width: 1.5),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 13),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10),
+                                border:
+                                    Border.all(color: AppColors.primary.withOpacity(0.3)),
+                              ),
+                              child: const Text(
+                                'JOD',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ── Duration ─────────────────────────────────────────────
+                  _ConvoCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const _QuestionLabel(
+                          emoji: '⏰',
+                          question: 'How long is your trip?',
+                        ),
+                        const SizedBox(height: 14),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColors.background,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: AppColors.border),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.access_time,
+                                  color: AppColors.primary, size: 20),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: DropdownButton<int>(
+                                  value: _selectedHours,
+                                  isExpanded: true,
+                                  underline: const SizedBox(),
+                                  style: const TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 15,
+                                  ),
+                                  items: List.generate(
+                                    13,
+                                    (index) => DropdownMenuItem(
+                                      value: index,
+                                      child: Text(
+                                          '$index Hour${index == 1 ? '' : 's'}'),
+                                    ),
+                                  ),
+                                  onChanged: (value) =>
+                                      setState(() => _selectedHours = value!),
+                                ),
+                              ),
+                              Container(
+                                  width: 1,
+                                  height: 28,
+                                  color: AppColors.border),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: DropdownButton<int>(
+                                  value: _selectedMinutes,
+                                  isExpanded: true,
+                                  underline: const SizedBox(),
+                                  style: const TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 15,
+                                  ),
+                                  items: const [
+                                    DropdownMenuItem(
+                                        value: 0, child: Text('00 Min')),
+                                    DropdownMenuItem(
+                                        value: 15, child: Text('15 Min')),
+                                    DropdownMenuItem(
+                                        value: 30, child: Text('30 Min')),
+                                    DropdownMenuItem(
+                                        value: 45, child: Text('45 Min')),
+                                  ],
+                                  onChanged: (value) =>
+                                      setState(() => _selectedMinutes = value!),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ── Interests ────────────────────────────────────────────
+                  _ConvoCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const _QuestionLabel(
+                          emoji: '🎯',
+                          question: 'What are you interested in?',
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Pick as many as you\'d like.',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _interests.map((interest) {
+                            return _SelectableChip(
+                              label: interest,
+                              selected: _selectedInterests.contains(interest),
+                              onTap: () => _toggleInterest(interest),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ── Language ─────────────────────────────────────────────
+                  _ConvoCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const _QuestionLabel(
+                          emoji: '🌐',
+                          question: 'Preferred language?',
+                        ),
+                        const SizedBox(height: 14),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _languages.map((language) {
+                            return _SelectableChip(
+                              label: language,
+                              selected: _selectedLanguage == language,
+                              onTap: () =>
+                                  setState(() => _selectedLanguage = language),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
 
+            // ── Generate button ───────────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _canSubmit ? _onGenerateTrip : null,
-                  child: const Text('Generate My Trip'),
+                  child: const Text('✨  Generate My Trip'),
                 ),
               ),
             ),
@@ -215,16 +391,51 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   }
 }
 
-class _SectionTitle extends StatelessWidget {
-  final String text;
+// ── Shared layout helpers ─────────────────────────────────────────────────────
 
-  const _SectionTitle(this.text);
+class _ConvoCard extends StatelessWidget {
+  final Widget child;
+
+  const _ConvoCard({required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 16),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: child,
+    );
+  }
+}
+
+class _QuestionLabel extends StatelessWidget {
+  final String emoji;
+  final String question;
+
+  const _QuestionLabel({required this.emoji, required this.question});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(emoji, style: const TextStyle(fontSize: 24)),
+        const SizedBox(height: 8),
+        Text(
+          question,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+            height: 1.3,
+          ),
+        ),
+      ],
     );
   }
 }
