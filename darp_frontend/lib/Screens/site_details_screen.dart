@@ -26,47 +26,137 @@ class SiteDetailsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           // ── Hero image sliver app bar ────────────────────────────────────
+          // SliverAppBar(
+          //   expandedHeight: 280,
+          //   pinned:         true,
+          //   backgroundColor: AppColors.secondary,
+          //   iconTheme:      const IconThemeData(color: Colors.white),
+          //   flexibleSpace: FlexibleSpaceBar(
+          //     background: Stack(
+          //       fit: StackFit.expand,
+          //       children: [
+          //         // Gradient placeholder (replace with Image.network when ready)
+          //         Container(
+          //           decoration: const BoxDecoration(
+          //             gradient: LinearGradient(
+          //               begin:  Alignment.topLeft,
+          //               end:    Alignment.bottomRight,
+          //               colors: [
+          //                 Color(0xFF8A6A3D),
+          //                 Color(0xFFC7922F),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //         const Center(
+          //           child: Icon(
+          //             Icons.image_outlined,
+          //             size:  72,
+          //             color: Colors.white30,
+          //           ),
+          //         ),
+          //         // Bottom gradient fade to background
+          //         Positioned(
+          //           bottom: 0, left: 0, right: 0,
+          //           child: Container(
+          //             height: 80,
+          //             decoration: BoxDecoration(
+          //               gradient: LinearGradient(
+          //                 begin:  Alignment.bottomCenter,
+          //                 end:    Alignment.topCenter,
+          //                 colors: [
+          //                   AppColors.background,
+          //                   const Color(0x00F7F2EA),
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           SliverAppBar(
             expandedHeight: 280,
-            pinned:         true,
+            pinned: true,
             backgroundColor: AppColors.secondary,
-            iconTheme:      const IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Gradient placeholder (replace with Image.network when ready)
+
+                  // FULL BACKGROUND IMAGE / PLACEHOLDER
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        begin:  Alignment.topLeft,
-                        end:    Alignment.bottomRight,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [
+                          Color(0xFFB08D57),
                           Color(0xFF8A6A3D),
-                          Color(0xFFC7922F),
                         ],
                       ),
                     ),
                   ),
+
+                  // Soft dark overlay for readability
+                  Container(
+                    color: Colors.black.withOpacity(0.15),
+                  ),
+
+                  // Optional icon when NO IMAGE exists
                   const Center(
                     child: Icon(
                       Icons.image_outlined,
-                      size:  72,
-                      color: Colors.white30,
+                      size: 70,
+                      color: Colors.white24,
                     ),
                   ),
-                  // Bottom gradient fade to background
+
+                  // BOTTOM FRAME / GLASS PANEL (your requested "frame")
                   Positioned(
-                    bottom: 0, left: 0, right: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                     child: Container(
-                      height: 80,
+                      height: 95,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin:  Alignment.bottomCenter,
-                          end:    Alignment.topCenter,
-                          colors: [
-                            AppColors.background,
-                            const Color(0x00F7F2EA),
+                        color: const Color(0xFFF7F2EA).withOpacity(0.92),
+                        border: const Border(
+                          top: BorderSide(
+                            color: Color(0xFFD6C7B2),
+                            width: 1.2,
+                          ),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 18,
+                            offset: const Offset(0, -6),
+                          ),
+                        ],
+                      ),
+
+                      // Optional small content inside frame (can remove if you want empty frame)
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.place_rounded,
+                              size: 18,
+                              color: Color(0xFF8A6A3D),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Destination Preview",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF6B5B45),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -76,7 +166,6 @@ class SiteDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-
           // ── Content ──────────────────────────────────────────────────────
           SliverToBoxAdapter(
             child: Padding(
