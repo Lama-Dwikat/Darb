@@ -1,0 +1,3 @@
+- [Gemini model selection](gemini-model.md) — gemini-2.5-flash works; 1.5-flash gives 404 on v1beta; 2.0-flash quota=0 on free tier
+- [Darb architecture](darb-arch.md) — Node.js Express (port 5000) serves both Flutter static build AND /api; Flutter uses root-relative /api URLs
+- [Flutter SW stale cache fix](flutter-sw-fix.md) — Add unregister-all-SW script to web/index.html to clear debug-mode SW before production build boots
