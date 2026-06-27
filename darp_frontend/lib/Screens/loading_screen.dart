@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/trip_preferences.dart';
-import '../models/trip_itinerary.dart';
 import '../services/itinerary_service.dart';
 
 class LoadingScreen extends StatefulWidget {
