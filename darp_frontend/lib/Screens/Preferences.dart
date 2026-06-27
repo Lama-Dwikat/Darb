@@ -139,7 +139,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // ── Budget ─────────────────────────────────────────────────
                   _ConvoCard(
@@ -194,7 +194,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // ── Duration ───────────────────────────────────────────────
                   _ConvoCard(
@@ -275,7 +275,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // ── Interests ──────────────────────────────────────────────
                   _ConvoCard(
@@ -310,7 +310,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // ── Language ───────────────────────────────────────────────
                   _ConvoCard(

@@ -375,110 +375,141 @@ class _TimelineStop extends StatelessWidget {
                   onTap: onTap,
                   child: Container(
                     margin: EdgeInsets.only(bottom: isLast ? 0 : 16),
-                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color:        AppColors.surface,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                       border:       Border.all(color: AppColors.border),
                       boxShadow:    AppShadows.card,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Category badge + arrival
-                        Row(
-                          children: [
-                            _CategoryBadge(category: location.category),
-                            const Spacer(),
-                            Row(
+                        // ── Image placeholder ────────────────────────────
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft:    Radius.circular(AppRadius.lg),
+                            bottomLeft: Radius.circular(AppRadius.lg),
+                          ),
+                          child: Container(
+                            width: 80,
+                            color: categoryBgColor(location.category),
+                            child: Center(
+                              child: Icon(
+                                _categoryIcon(location.category),
+                                size:  32,
+                                color: categoryTextColor(location.category)
+                                    .withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // ── Content ──────────────────────────────────────
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.access_time_rounded,
-                                    size: 12,
-                                    color: AppColors.textSecondary),
-                                const SizedBox(width: 3),
+                                // Category badge + arrival
+                                Row(
+                                  children: [
+                                    _CategoryBadge(
+                                        category: location.category),
+                                    const Spacer(),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.access_time_rounded,
+                                            size:  12,
+                                            color: AppColors.textSecondary),
+                                        const SizedBox(width: 3),
+                                        Text(
+                                          arrival,
+                                          style: const TextStyle(
+                                            fontSize:   11,
+                                            color:      AppColors.textSecondary,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                // Name
                                 Text(
-                                  arrival,
+                                  location.name,
                                   style: const TextStyle(
-                                    fontSize:   11,
-                                    color:      AppColors.textSecondary,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize:   15,
+                                    fontWeight: FontWeight.w700,
+                                    color:      AppColors.textPrimary,
+                                    height:     1.3,
                                   ),
+                                ),
+
+                                const SizedBox(height: 3),
+
+                                // Location
+                                Row(
+                                  children: [
+                                    const Icon(Icons.location_on_rounded,
+                                        size:  12,
+                                        color: AppColors.textSecondary),
+                                    const SizedBox(width: 3),
+                                    Expanded(
+                                      child: Text(
+                                        location.location,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color:    AppColors.textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                // Description
+                                Text(
+                                  location.description,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color:    AppColors.textSecondary,
+                                    height:   1.5,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                // Duration + match + arrow
+                                Row(
+                                  children: [
+                                    _InfoChip(
+                                      icon:  Icons.schedule_rounded,
+                                      label: location.durationLabel,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    _InfoChip(
+                                      icon:      Icons.star_rounded,
+                                      label:     'Match ${location.score}%',
+                                      highlight: true,
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_forward_ios_rounded,
+                                        size:  12,
+                                        color: AppColors.textSecondary),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // Name
-                        Text(
-                          location.name,
-                          style: const TextStyle(
-                            fontSize:   16,
-                            fontWeight: FontWeight.w700,
-                            color:      AppColors.textPrimary,
-                            height:     1.3,
                           ),
-                        ),
-
-                        const SizedBox(height: 4),
-
-                        // Location
-                        Row(
-                          children: [
-                            const Icon(Icons.location_on_rounded,
-                                size: 12,
-                                color: AppColors.textSecondary),
-                            const SizedBox(width: 3),
-                            Expanded(
-                              child: Text(
-                                location.location,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color:    AppColors.textSecondary,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // Description
-                        Text(
-                          location.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color:    AppColors.textSecondary,
-                            height:   1.5,
-                          ),
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        // Bottom row: duration + match score + arrow
-                        Row(
-                          children: [
-                            _InfoChip(
-                              icon:  Icons.schedule_rounded,
-                              label: location.durationLabel,
-                            ),
-                            const SizedBox(width: 8),
-                            _InfoChip(
-                              icon:  Icons.star_rounded,
-                              label: 'Match ${location.score}%',
-                              highlight: true,
-                            ),
-                            const Spacer(),
-                            const Icon(Icons.arrow_forward_ios_rounded,
-                                size: 14,
-                                color: AppColors.textSecondary),
-                          ],
                         ),
                       ],
                     ),
@@ -490,6 +521,20 @@ class _TimelineStop extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// ── Category icon helper ──────────────────────────────────────────────────────
+
+IconData _categoryIcon(String category) {
+  switch (category.toLowerCase()) {
+    case 'religious':  return Icons.mosque_rounded;
+    case 'historical': return Icons.account_balance_rounded;
+    case 'nature':     return Icons.park_rounded;
+    case 'culture':    return Icons.theater_comedy_rounded;
+    case 'shopping':   return Icons.shopping_bag_rounded;
+    case 'food':       return Icons.restaurant_rounded;
+    default:           return Icons.place_rounded;
   }
 }
 

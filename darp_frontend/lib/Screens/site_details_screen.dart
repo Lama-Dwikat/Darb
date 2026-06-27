@@ -131,7 +131,7 @@ class SiteDetailsScreen extends StatelessWidget {
                       const SizedBox(width: 10),
                       _MetaBadge(
                         icon:      Icons.star_rounded,
-                        label:     'AI Match ${location.score}%',
+                        label:     'Match Score ${location.score}%',
                         highlight: true,
                       ),
                     ],
