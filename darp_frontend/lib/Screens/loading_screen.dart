@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/trip_preferences.dart';
 import '../services/api_service.dart';
-import '../models/trip_location.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -19,39 +18,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _generateTrip());
   }
 
-
-  // Future<void> _generateTrip() async {
-  //   final preferences =
-  //   ModalRoute.of(context)!.settings.arguments as TripPreferences;
-  //
-  //   final durationMin = _parseDurationMin(preferences.duration);
-  //
-  //   try {
-  //     final response = await ApiService().generateTrip(
-  //       interests: preferences.interests.toList(),
-  //       durationMin: durationMin,
-  //       language: preferences.language,
-  //     );
-  //
-  //     if (!mounted) return;
-  //
-  //     final locations = (response.itinerary as List)
-  //         .map((e) => TripLocation.fromJson(e))
-  //         .toList();
-  //
-  //     Navigator.pushReplacementNamed(
-  //       context,
-  //       '/trip',
-  //       arguments: locations,
-  //     );
-  //
-  //   } catch (e) {
-  //     if (!mounted) return;
-  //     setState(() {
-  //       _error = e.toString().replaceFirst('Exception: ', '');
-  //     });
-  //   }
-  // }
   Future<void> _generateTrip() async {
     final preferences =
         ModalRoute.of(context)!.settings.arguments as TripPreferences;
@@ -66,6 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       );
 
       if (!mounted) return;
+
       Navigator.pushReplacementNamed(
         context,
         '/trip',
@@ -79,7 +46,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
   }
 
-  // Parses "2h 30m" format produced by PreferencesScreen into total minutes.
+  // Parses "2h 30m" → total minutes.
   int _parseDurationMin(String duration) {
     final parts = duration.split('h ');
     final hours = int.tryParse(parts[0]) ?? 0;
@@ -98,7 +65,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline, color: Colors.redAccent, size: 48),
+                const Icon(Icons.error_outline,
+                    color: Colors.redAccent, size: 48),
                 const SizedBox(height: 16),
                 Text(
                   _error!,
@@ -126,7 +94,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             CircularProgressIndicator(),
             SizedBox(height: 20),
             Text(
-              "Generating your personalized journey...",
+              'Generating your personalized journey...',
               style: TextStyle(color: Colors.white),
             ),
           ],

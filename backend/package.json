@@ -9,6 +9,5 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0"
-  },
-  "devDependencies": {}
+  }
 }
