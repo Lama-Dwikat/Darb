@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/trip_preferences.dart';
 import '../services/api_service.dart';
@@ -9,13 +10,45 @@ class LoadingScreen extends StatefulWidget {
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _LoadingScreenState extends State<LoadingScreen>
+    with SingleTickerProviderStateMixin {
   String? _error;
+  int _messageIndex = 0;
+  late Timer _messageTimer;
+  late AnimationController _progressController;
+
+  static const _messages = [
+    '🤖 Analyzing your preferences...',
+    '📍 Finding the best attractions...',
+    '🗺 Optimizing your itinerary...',
+    '✨ Your personalized trip is almost ready...',
+  ];
 
   @override
   void initState() {
     super.initState();
+
+    _progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..forward();
+
+    _messageTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() {
+          _messageIndex = (_messageIndex + 1) % _messages.length;
+        });
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) => _generateTrip());
+  }
+
+  @override
+  void dispose() {
+    _messageTimer.cancel();
+    _progressController.dispose();
+    super.dispose();
   }
 
   Future<void> _generateTrip() async {
@@ -40,13 +73,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
       );
     } catch (e) {
       if (!mounted) return;
+      _messageTimer.cancel();
       setState(() {
         _error = e.toString().replaceFirst('Exception: ', '');
       });
     }
   }
 
-  // Parses "2h 30m" → total minutes.
   int _parseDurationMin(String duration) {
     final parts = duration.split('h ');
     final hours = int.tryParse(parts[0]) ?? 0;
@@ -85,19 +118,78 @@ class _LoadingScreenState extends State<LoadingScreen> {
       );
     }
 
-    return const Scaffold(
-      backgroundColor: Color(0xFF0F172A),
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
-            Text(
-              'Generating your personalized journey...',
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Darb',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
+              const SizedBox(height: 48),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, 0.2),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                ),
+                child: Text(
+                  _messages[_messageIndex],
+                  key: ValueKey(_messageIndex),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              AnimatedBuilder(
+                animation: _progressController,
+                builder: (context, _) {
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: LinearProgressIndicator(
+                          value: _progressController.value,
+                          minHeight: 6,
+                          backgroundColor: Colors.white12,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF6366F1),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        '${(_progressController.value * 100).toInt()}%',
+                        style: const TextStyle(
+                          color: Colors.white38,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
